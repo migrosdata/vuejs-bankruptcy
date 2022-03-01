@@ -1,10 +1,11 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <img alt="Vue logo" src="../assets/bankruptMan.png" height="200" />
     <bankruptcy-form 
       v-on:submit="submitHandler"
       v-if="showForm">
     </bankruptcy-form>
+    <error v-if="showError" v-on:restart="restartHandler"></error>
     <result v-if="showResult" :reponse="dataikuResponse" v-on:restart="restartHandler"/>
   </div>
 </template>
@@ -13,12 +14,13 @@
 // @ is an alias to /src
 import BankruptcyForm from "@/components/Form.vue";
 import Result from "@/components/Result.vue";
-
+import Error from "@/components/Error.vue";
 export default {
   name: "Home",
   components: {
     BankruptcyForm,
     Result,
+    Error,    
   },
   data: () => ({
     showError: false,
