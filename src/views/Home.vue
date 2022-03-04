@@ -1,15 +1,20 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/bankruptMan.png" height="200" />
-    <bankruptcy-form v-on:submit="submitHandler" v-if="showForm">
-    </bankruptcy-form>
-    <error v-if="showError" v-on:restart="restartHandler"></error>
-    <result
-      v-if="showResult"
-      :reponse="dataikuResponse"
-      v-on:restart="restartHandler"
-    />
-  </div>
+  <v-container>
+    <transition name="fade">
+      <bankruptcy-form v-on:submit="submitHandler" v-if="showForm">
+      </bankruptcy-form>
+      <error
+        v-if="showError"
+        v-on:restart="restartHandler"
+        :error="this.error"
+      ></error>
+      <result
+        v-if="showResult"
+        :reponse="dataikuResponse"
+        v-on:restart="restartHandler"
+      />
+    </transition>
+  </v-container>
 </template>
 
 <script>
@@ -29,22 +34,19 @@ export default {
     showForm: true,
     showResult: false,
     dataikuResponse: null,
+    error: null,
   }),
-  mounted() {
-    //TODO:loin
-    console.log(process.env.VUE_APP_API);
-    console.log("yo");
-  },
+  mounted() {},
   methods: {
     submitHandler(form) {
       this.showForm = false;
       const features = `{ "features" : ${JSON.stringify(form, null, " ")} }`;
-      console.log(features);
       console.log(features.replace("_", "/"));
       this.predictBankruptcy(features);
     },
     restartHandler() {
       this.showResult = false;
+      this.showError = false;
       this.dataikuResponse = null;
       this.showForm = true;
     },
@@ -57,11 +59,10 @@ export default {
         .then((response) => {
           this.dataikuResponse = response.data;
           console.log(response.data);
-          this.showSpinner = false;
           this.showResult = true;
         })
         .catch((error) => {
-          this.showSpinner = false;
+          this.error = error;
           this.showError = true;
           console.log(error);
         });
@@ -69,3 +70,11 @@ export default {
   },
 };
 </script>
+<style>
+   .fade-enter-active, .fade-leave-active {
+      transition: opacity .4s;
+   }
+   .fade-enter-active, .fade-leave-active /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0;
+   }
+</style>

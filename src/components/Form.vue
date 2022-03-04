@@ -3,6 +3,17 @@
     <v-container>
       <v-row>
         <v-col cols="12" md="4">
+          <v-slider
+            prepend-icon="mdi-human"
+            v-model="form.risk"
+            hint="Choose your investor profile"
+            label="Risk"
+            thumb-color="red"
+          ></v-slider>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" md="4">
           <v-text-field
             prepend-icon="mdi-currency-usd"
             v-model.number="form.ASSETS"
@@ -37,7 +48,7 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-row>        
+      <v-row>
         <v-col cols="12" md="4">
           <v-text-field
             prepend-icon="mdi-currency-usd"
@@ -73,7 +84,7 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-row>        
+      <v-row>
         <v-col cols="12" md="4">
           <v-text-field
             prepend-icon="mdi-currency-usd"
@@ -198,10 +209,10 @@ export default {
   }),
   props: {},
   computed: {
-    ASSETS_DEBTS:  {
-      get () {
+    ASSETS_DEBTS: {
+      get() {
         return this.form.ASSETS / this.form.DEBTS;
-      }
+      },
     },
   },
   methods: {
@@ -209,7 +220,7 @@ export default {
       this.$emit("submit", this.prepareData());
     },
     prepareData() {
-      return { ASSETS_DEBTS : this.ASSETS_DEBTS };
+      return { ASSETS_DEBTS: this.ASSETS_DEBTS };
     },
   },
 };
