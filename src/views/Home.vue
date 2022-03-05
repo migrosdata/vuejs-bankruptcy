@@ -40,8 +40,8 @@ export default {
   methods: {
     submitHandler(form) {
       this.showForm = false;
-      const features = `{ "features" : ${JSON.stringify(form, null, " ")} }`;
-      console.log(features.replace("_", "/"));
+      const features = `{ "features" : ${JSON.stringify(form, null, " ")} }`.replaceAll("_", "/");
+      console.log(features);
       this.predictBankruptcy(features);
     },
     restartHandler() {

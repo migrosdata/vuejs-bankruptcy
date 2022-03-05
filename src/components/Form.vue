@@ -28,17 +28,6 @@
         <v-col cols="12" md="4">
           <v-text-field
             prepend-icon="mdi-currency-usd"
-            v-model.number="form.CFFO"
-            label="Cash flow from operations"
-            required
-            :rules="[(v) => !!v || 'Cash flow from operations is required']"
-            type="number"
-            min="0"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" md="4">
-          <v-text-field
-            prepend-icon="mdi-currency-usd"
             v-model.number="form.CURASS"
             label="Current Asset"
             required
@@ -47,8 +36,6 @@
             min="0"
           ></v-text-field>
         </v-col>
-      </v-row>
-      <v-row>
         <v-col cols="12" md="4">
           <v-text-field
             prepend-icon="mdi-currency-usd"
@@ -60,6 +47,8 @@
             min="0"
           ></v-text-field>
         </v-col>
+      </v-row>
+      <v-row>
         <v-col cols="12" md="4">
           <v-text-field
             prepend-icon="mdi-currency-usd"
@@ -83,30 +72,6 @@
             :rules="[(v) => !!v || 'Income is required']"
           ></v-text-field>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12" md="4">
-          <v-text-field
-            prepend-icon="mdi-currency-usd"
-            v-model.number="form.INCDEPT"
-            label="Income plus depreciation"
-            required
-            :rules="[(v) => !!v || 'Income plus depreciation is required']"
-            type="number"
-            min="0"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="12" md="4">
-          <v-text-field
-            prepend-icon="mdi-currency-usd"
-            v-model.number="form.SALES"
-            label="Sales"
-            required
-            :rules="[(v) => !!v || 'Sales is required']"
-            type="number"
-            min="0"
-          ></v-text-field>
-        </v-col>
         <v-col cols="12" md="4">
           <v-text-field
             prepend-icon="mdi-currency-usd"
@@ -122,7 +87,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="3">
           <v-text-field
             prepend-icon="mdi-currency-usd"
             label="ASSETS/DEBTS"
@@ -132,49 +97,67 @@
             disabled
           ></v-text-field>
         </v-col>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="3">
           <v-text-field
             prepend-icon="mdi-currency-usd"
-            :value="form.CURASS / form.CURDEBTS"
+            v-model.number="CURASS_ASSETS"
+            label="CURASS/ASSETS"
+            type="number"
+            disabled
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="3">
+          <v-text-field
+            prepend-icon="mdi-currency-usd"
+            v-model.number="CURASS_CURDEBTS"
             label="CURASS/CURDEBTS"
             type="number"
             disabled
           ></v-text-field>
         </v-col>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="3">
           <v-text-field
             prepend-icon="mdi-currency-usd"
-            :value="form.INCDEPT / form.DEBTS"
-            label="INCDEPT/DEBTS"
+            v-model.number="CURDEBTS_DEBTS"
+            label="CURDEBTS/DEBTS"
             type="number"
             disabled
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="3">
           <v-text-field
             prepend-icon="mdi-currency-usd"
-            :value="form.WCFO / form.DEBTS"
-            label="WCFO/DEBTS"
+            v-model.number="INC_ASSETS"
+            label="INC/ASSETS"
             type="number"
             disabled
           ></v-text-field>
         </v-col>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="3">
           <v-text-field
             prepend-icon="mdi-currency-usd"
-            :value="form.INC / form.DEBTS"
+            v-model.number="INC_DEBTS"
             label="INC/DEBTS"
             type="number"
             disabled
           ></v-text-field>
         </v-col>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="3">
           <v-text-field
             prepend-icon="mdi-currency-usd"
-            :value="form.INC / form.ASSETS"
-            label="INC/ASSETS"
+            v-model.number="WCFO_ASSETS"
+            label="WCFO/ASSETS"
+            type="number"
+            disabled
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="3">
+          <v-text-field
+            prepend-icon="mdi-currency-usd"
+            v-model.number="WCFO_DEBTS"
+            label="WCFO/DEBTS"
             type="number"
             disabled
           ></v-text-field>
@@ -192,7 +175,7 @@
           </v-btn>
         </v-col>
         <v-col cols="12" md="6">
-          <v-btn color="error" class="mr-4"> Reset</v-btn>
+          <v-btn color="error" class="mr-4" @click="reset"> Reset</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -211,7 +194,74 @@ export default {
   computed: {
     ASSETS_DEBTS: {
       get() {
-        return this.form.ASSETS / this.form.DEBTS;
+        if (this.form.ASSETS || this.form.DEBTS) {
+          return this.form.ASSETS / this.form.DEBTS;
+        } else {
+          return null;
+        }
+      },
+    },
+    CURASS_ASSETS: {
+      get() {
+        if (this.form.CURASS || this.form.ASSETS) {
+          return this.form.CURASS / this.form.ASSETS;
+        } else {
+          return null;
+        }
+      },
+    },
+    CURASS_CURDEBTS: {
+      get() {
+        if (this.form.CURASS || this.form.CURDEBTS) {
+          return this.form.CURASS / this.form.CURDEBTS;
+        } else {
+          return null;
+        }
+      },
+    },
+    CURDEBTS_DEBTS: {
+      get() {
+        if (this.form.CURDEBTS || this.form.DEBTS) {
+          return this.form.CURDEBTS / this.form.DEBTS;
+        } else {
+          return null;
+        }
+      },
+    },
+    INC_ASSETS: {
+      get() {
+        if (this.form.ASSETS || this.form.INC) {
+          return this.form.INC / this.form.ASSETS;
+        } else {
+          return null;
+        }
+      },
+    },
+    INC_DEBTS: {
+      get() {
+        if (this.form.INC || this.form.DEBTS) {
+          return this.form.INC / this.form.DEBTS;
+        } else {
+          return null;
+        }
+      },
+    },
+    WCFO_ASSETS: {
+      get() {
+        if (this.form.WCFO || this.form.ASSETS) {
+          return this.form.WCFO / this.form.ASSETS;
+        } else {
+          return null;
+        }
+      },
+    },
+    WCFO_DEBTS: {
+      get() {
+        if (this.form.WCFO || this.form.DEBTS) {
+          return this.form.WCFO / this.form.DEBTS;
+        } else {
+          return null;
+        }
       },
     },
   },
@@ -219,8 +269,20 @@ export default {
     validate() {
       this.$emit("submit", this.prepareData());
     },
+    reset() {
+      this.$refs.form.reset();
+    },
     prepareData() {
-      return { ASSETS_DEBTS: this.ASSETS_DEBTS };
+      return {
+        ASSETS_DEBTS: this.ASSETS_DEBTS,
+        CURASS_ASSETS: this.CURASS_ASSETS,
+        CURASS_CURDEBTS: this.CURASS_CURDEBTS,
+        CURDEBTS_DEBTS: this.CURDEBTS_DEBTS,
+        INC_ASSETS: this.INC_ASSETS,
+        INC_DEBTS: this.INC_DEBTS,
+        WCFO_ASSETS: this.WCFO_ASSETS,
+        WCFO_DEBTS: this.WCFO_DEBTS,
+      };
     },
   },
 };
