@@ -11,6 +11,7 @@
       <result
         v-if="showResult"
         :reponse="dataikuResponse"
+        :companyName="companyName"
         v-on:restart="restartHandler"
       />
     </transition>
@@ -34,12 +35,15 @@ export default {
     showForm: true,
     showResult: false,
     dataikuResponse: null,
+    companyName: "",
     error: null,
   }),
   mounted() {},
   methods: {
     submitHandler(form) {
       this.showForm = false;
+      //this.companyName = form.companyName.toLowerCase();
+      delete form.companyName;
       const features = `{ "features" : ${JSON.stringify(form, null, " ")} }`;
       console.log(features.replace("_", "/"));
       this.predictBankruptcy(features);

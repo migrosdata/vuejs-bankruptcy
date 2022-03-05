@@ -11,6 +11,13 @@
             thumb-color="red"
           ></v-slider>
         </v-col>
+        <v-col cols="12" md="4">
+          <v-text-field
+            prepend-icon="mdi-currency-usd"
+            v-model.number="form.companyName"
+            label="Company name"
+          ></v-text-field>
+        </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" md="4">
@@ -220,7 +227,10 @@ export default {
       this.$emit("submit", this.prepareData());
     },
     prepareData() {
-      return { ASSETS_DEBTS: this.ASSETS_DEBTS };
+      return {
+        companyName: this.form.companyName,
+        ASSETS_DEBTS: this.ASSETS_DEBTS,
+      };
     },
   },
 };
