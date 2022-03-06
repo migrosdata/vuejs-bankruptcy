@@ -1,20 +1,23 @@
 <template>
   <v-container>
     <v-row align="center" justify="center">
-      <v-col cols="12" md="3">
-        <div v-if="this.reponse.result.prediction == 1">
-          <v-icon x-large>mdi-bank-check</v-icon>
+      <v-col cols="12" md="12" >
+        <div v-if="this.reponse.result.prediction == 1" class="green accent-4 text-h6">
+          <h1>
+            <v-icon x-large>mdi-bank-check</v-icon> 
+            {{ this.reponse.result.probaPercentile }} % Healthy company!</h1>
         </div>
-        <div v-else>
-          <v-icon x-large>mdi-bank-off-outline</v-icon>
+        <div v-else class="red accent-4" >
+          <h1>
+            <v-icon x-large>mdi-bank-off-outline</v-icon>
+            {{ this.reponse.result.probaPercentile }} %
+            Risk of bankruptcy!
+          </h1>
         </div>
-      </v-col>
-      <v-col cols="12" md="3">
-        <h1 class="display-4">{{ this.reponse.result.probaPercentile }} %</h1>
       </v-col>
     </v-row>
-    <v-row justify="center">
-       <v-col cols="12" md="3" >
+    <v-row justify="center" align="center">
+      <v-col cols="12" md="4" align="center">
         <v-btn @click="restart">
           Nouvelle prédiction
           <v-icon large>mdi-piggy-bank</v-icon>
