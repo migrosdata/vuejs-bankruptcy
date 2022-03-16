@@ -6,18 +6,19 @@
           type="success"
           icon="mdi-bank-check"
           text
+          prominent
           outlined
           v-if="this.reponse.result.prediction == 1"
         >
           {{ this.reponse.result.probaPercentile }} % Healthy company!
         </v-alert>
-
         <v-alert
           text
           outlined
           color="deep-orange"
           type="error"
           icon="mdi-bank-off-outline"
+          prominent
           v-else
         >
           {{ this.reponse.result.probaPercentile }} % Risk of bankruptcy!
@@ -43,6 +44,10 @@ export default {
       type: Object,
       required: true,
     },
+    risk: {
+      type: Number,
+      required: true,
+    }
   },
   methods: {
     restart: function () {

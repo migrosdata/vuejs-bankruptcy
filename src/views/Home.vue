@@ -11,6 +11,7 @@
       <result
         v-if="showResult"
         :reponse="dataikuResponse"
+        :risk="risk"
         v-on:restart="restartHandler"
       />
     </transition>
@@ -35,11 +36,14 @@ export default {
     showResult: false,
     dataikuResponse: null,
     error: null,
+    risk: 0,
   }),
   mounted() {},
   methods: {
     submitHandler(form) {
       this.showForm = false;
+      this.risk = form.risk;
+      delete form.risk;
       const features = `{ "features" : ${JSON.stringify(form, null, " ")} }`.replaceAll("_", "/");
       console.log(features);
       this.predictBankruptcy(features);
