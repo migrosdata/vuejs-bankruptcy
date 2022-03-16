@@ -1,19 +1,27 @@
 <template>
   <v-container>
     <v-row align="center" justify="center">
-      <v-col cols="12" md="12" >
-        <div v-if="this.reponse.result.prediction == 1" class="green accent-4 text-h6">
-          <h1>
-            <v-icon x-large>mdi-bank-check</v-icon> 
-            {{ this.reponse.result.probaPercentile }} % Healthy company!</h1>
-        </div>
-        <div v-else class="red accent-4" >
-          <h1>
-            <v-icon x-large>mdi-bank-off-outline</v-icon>
-            {{ this.reponse.result.probaPercentile }} %
-            Risk of bankruptcy!
-          </h1>
-        </div>
+      <v-col cols="12" md="12">
+        <v-alert
+          type="success"
+          icon="mdi-bank-check"
+          text
+          outlined
+          v-if="this.reponse.result.prediction == 1"
+        >
+          {{ this.reponse.result.probaPercentile }} % Healthy company!
+        </v-alert>
+
+        <v-alert
+          text
+          outlined
+          color="deep-orange"
+          type="error"
+          icon="mdi-bank-off-outline"
+          v-else
+        >
+          {{ this.reponse.result.probaPercentile }} % Risk of bankruptcy!
+        </v-alert>
       </v-col>
     </v-row>
     <v-row justify="center" align="center">
