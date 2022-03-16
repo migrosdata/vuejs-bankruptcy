@@ -5,7 +5,7 @@
         light
         src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
       >
-        <v-toolbar-title class="text-h3">Bankruptcy </v-toolbar-title>
+        <v-toolbar-title class="text-h3 white--text">Bankruptcy </v-toolbar-title>
         <v-img :src="require('@/assets/bankruptMan.png')" contain height="60" />
       </v-toolbar>
       <router-view></router-view>
