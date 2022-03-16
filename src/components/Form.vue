@@ -4,7 +4,7 @@
       <v-row>
         <v-col cols="12" md="4">
           <v-slider
-            prepend-icon="mdi-human"
+            :prepend-icon="riskIcon"
             v-model="form.risk"
             hint="Choose your investor profile"
             label="Risk"
@@ -192,6 +192,11 @@ export default {
   }),
   props: {},
   computed: {
+    riskIcon: {
+      get() {
+        return this.form.risk > 50 ? this.form.risk > 95 ? "mdi-emoticon-devil-outline" :  "mdi-emoticon-cool-outline" : "mdi-emoticon-confused-outline";
+      },
+    },
     ASSETS_DEBTS: {
       get() {
         if (this.form.ASSETS || this.form.DEBTS) {
