@@ -164,7 +164,11 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="6">
+        <v-col class="d-flex" cols="12" md="12">
+          <v-spacer></v-spacer>
+          <v-btn color="error" class="mr-4" @click="reset"
+            >Reset <v-icon right dark>mdi-restart</v-icon></v-btn
+          >
           <v-btn
             color="success"
             class="mr-4"
@@ -173,9 +177,6 @@
           >
             Soumettre
           </v-btn>
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-btn color="error" class="mr-4" @click="reset"> Reset</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -194,7 +195,11 @@ export default {
   computed: {
     riskIcon: {
       get() {
-        return this.form.risk > 50 ? this.form.risk > 95 ? "mdi-emoticon-devil-outline" :  "mdi-emoticon-cool-outline" : "mdi-emoticon-confused-outline";
+        return this.form.risk > 50
+          ? this.form.risk > 95
+            ? "mdi-emoticon-devil-outline"
+            : "mdi-emoticon-cool-outline"
+          : "mdi-emoticon-confused-outline";
       },
     },
     ASSETS_DEBTS: {
@@ -287,6 +292,7 @@ export default {
         INC_DEBTS: this.INC_DEBTS,
         WCFO_ASSETS: this.WCFO_ASSETS,
         WCFO_DEBTS: this.WCFO_DEBTS,
+        risk: this.form.risk,
       };
     },
   },
